@@ -24,6 +24,7 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // main.ts
 var main_exports = {};
 __export(main_exports, {
+  DVOModal: () => DVOModal,
   default: () => DVO
 });
 module.exports = __toCommonJS(main_exports);
@@ -31,12 +32,48 @@ var import_obsidian = require("obsidian");
 var DEFAULT_SETTINGS = {
   mySetting: "default"
 };
+var modal_map = /* @__PURE__ */ new Map();
+var DVOModal = class extends import_obsidian.Modal {
+  constructor(app) {
+    super(app);
+    this.id = "";
+  }
+  onOpen() {
+    let { contentEl } = this;
+    contentEl.setText("Look at me, I'm a modal! \u{1F440}");
+  }
+  onClose() {
+    let { contentEl } = this;
+    contentEl.empty();
+  }
+  setID(id) {
+    this.id = id;
+    return this;
+  }
+};
 var DVO = class extends import_obsidian.Plugin {
   async onload() {
     await this.loadSettings();
+    let plugin = this;
     globalThis.DvO = {
-      consoler: () => {
-        console.log("here");
+      command: (name, callback) => {
+        let id = name.toLowerCase().replace(" ", "-");
+        plugin.addCommand({
+          id,
+          name,
+          callback
+        });
+      },
+      defineModal: (id, content) => {
+        modal_map.set(id, content);
+      },
+      openModal: (id) => {
+        new DVOModal(this.app).setID(id).open();
+      },
+      vault: {
+        createFile: async (path, content) => {
+          this.app.vault.create(path, content);
+        }
       }
     };
     this.addSettingTab(new DVOSettingTab(this.app, this));

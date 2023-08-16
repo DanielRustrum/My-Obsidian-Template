@@ -8,16 +8,56 @@ const DEFAULT_SETTINGS: DVOSettings = {
 	mySetting: 'default'
 }
 
+let modal_map = new Map<string, string>()
+export class DVOModal extends Modal {
+	private id: string
+
+	constructor(app: App) {
+		super(app);
+		this.id = ""
+	}
+  
+	onOpen() {
+		let { contentEl } = this;
+		contentEl.setText("Look at me, I'm a modal! 👀");
+	}
+  
+	onClose() {
+	  	let { contentEl } = this;
+	  	contentEl.empty();
+	}
+
+	setID(id: string) {
+		this.id = id
+		return this
+	}
+}
+
+
 export default class DVO extends Plugin {
 	settings: DVOSettings;
 
 	async onload() {
 		await this.loadSettings();
-		
+		let plugin = this
+
 		//@ts-ignore
 		globalThis.DvO = {
-			consoler: () => {
-				console.log("here")
+			command: (name: string, callback: ()=>void) => {
+				let id = name
+					.toLowerCase()
+					.replace(" ", "-")
+
+				plugin.addCommand({
+					id,
+					name,
+					callback
+				})
+			},
+			defineModal: (id:string, content:string) => {modal_map.set(id, content)},
+			openModal: (id:string) => {new DVOModal(this.app).setID(id).open()},
+			vault: {
+				createFile: async (path: string, content: string) => {this.app.vault.create(path, content)}
 			}
 		}
 
@@ -38,6 +78,8 @@ export default class DVO extends Plugin {
 		await this.saveData(this.settings);
 	}
 }
+
+
 
 class DVOSettingTab extends PluginSettingTab {
 	plugin: DVO;
