@@ -13,6 +13,10 @@ const DEFAULT_SETTINGS: MyPluginSettings = {
 export default class MyPlugin extends Plugin {
 	settings: MyPluginSettings;
 
+	consolethis() {
+		console.log(this)
+	}
+
 	async onload() {
 		await this.loadSettings();
 
