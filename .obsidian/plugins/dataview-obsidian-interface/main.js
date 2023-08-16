@@ -32,8 +32,12 @@ var DEFAULT_SETTINGS = {
   mySetting: "default"
 };
 var MyPlugin = class extends import_obsidian.Plugin {
+  consoler1() {
+    console.log(this);
+  }
   async onload() {
     await this.loadSettings();
+    this.consoler = this.consoler1;
     const ribbonIconEl = this.addRibbonIcon("dice", "Sample Plugin", (evt) => {
       new import_obsidian.Notice("This is a notice!");
     });
