@@ -10,7 +10,7 @@ const DEFAULT_SETTINGS: DVOSettings = {
 
 let modal_map = new Map<string, string>()
 export class DVOModal extends Modal {
-	private id: string
+	public id: string
 
 	constructor(app: App) {
 		super(app);
@@ -19,7 +19,7 @@ export class DVOModal extends Modal {
   
 	onOpen() {
 		let { contentEl } = this;
-		contentEl.setText("Look at me, I'm a modal! 👀");
+		contentEl.setText(modal_map.get(this.id) as string);
 	}
   
 	onClose() {
@@ -57,7 +57,14 @@ export default class DVO extends Plugin {
 			defineModal: (id:string, content:string) => {modal_map.set(id, content)},
 			openModal: (id:string) => {new DVOModal(this.app).setID(id).open()},
 			vault: {
-				createFile: async (path: string, content: string) => {this.app.vault.create(path, content)}
+				createFile: async (path: string, content: string) => {this.app.vault.create(
+					`./${path}`, 
+					content === ""? "": content
+				)},
+				readFile: async (path: string) => {
+					// this.app.vault.read("")
+				},
+				delete: async (path: string) => {}
 			}
 		}
 

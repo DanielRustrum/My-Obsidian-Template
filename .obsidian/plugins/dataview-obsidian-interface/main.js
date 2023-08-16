@@ -40,7 +40,7 @@ var DVOModal = class extends import_obsidian.Modal {
   }
   onOpen() {
     let { contentEl } = this;
-    contentEl.setText("Look at me, I'm a modal! \u{1F440}");
+    contentEl.setText(modal_map.get(this.id));
   }
   onClose() {
     let { contentEl } = this;
@@ -72,7 +72,14 @@ var DVO = class extends import_obsidian.Plugin {
       },
       vault: {
         createFile: async (path, content) => {
-          this.app.vault.create(path, content);
+          this.app.vault.create(
+            `./${path}`,
+            content === "" ? "" : content
+          );
+        },
+        readFile: async (path) => {
+        },
+        delete: async (path) => {
         }
       }
     };
