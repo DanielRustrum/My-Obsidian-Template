@@ -13,7 +13,6 @@ const DEFAULT_SETTINGS: MyPluginSettings = {
 export default class MyPlugin extends Plugin {
 	settings: MyPluginSettings;
 
-	private consoler: () => void
 
 	consoler1() {
 		console.log(this)
@@ -21,10 +20,9 @@ export default class MyPlugin extends Plugin {
 
 	async onload() {
 		await this.loadSettings();
-
-		this.consoler = this.consoler1
+		
 		//@ts-ignore
-		window.consoler = this.consoler1	
+		this.consoler = this.consoler1
 		
 
 		// This adds a settings tab so the user can configure various aspects of the plugin

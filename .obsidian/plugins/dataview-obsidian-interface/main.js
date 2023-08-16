@@ -38,7 +38,6 @@ var MyPlugin = class extends import_obsidian.Plugin {
   async onload() {
     await this.loadSettings();
     this.consoler = this.consoler1;
-    window.consoler = this.consoler1;
     this.addSettingTab(new SampleSettingTab(this.app, this));
     this.registerDomEvent(document, "click", (evt) => {
       console.log("click", evt);
