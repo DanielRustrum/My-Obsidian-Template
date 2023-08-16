@@ -1,5 +1,5 @@
 {
-  "jsFiles": "",
+  "jsFiles": "Meta/Scripts/start.js",
   "jsFolder": "Meta/Scripts",
   "startupScriptNames": [],
   "registeredInvocableScriptNames": []

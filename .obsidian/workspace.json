@@ -4,17 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "28baeefafe894448",
+        "id": "189b0fd3530fa90b",
         "type": "tabs",
         "children": [
           {
-            "id": "6bc100ecf8653b09",
+            "id": "59dbc5d9f1c58f79",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
                 "file": "Home.md",
-                "mode": "source",
+                "mode": "preview",
                 "source": true
               }
             }
@@ -108,8 +108,10 @@
       "audio-recorder:Start/stop recording": false
     }
   },
-  "active": "6bc100ecf8653b09",
+  "active": "0e391d6da82deb93",
   "lastOpenFiles": [
+    "Meta/Scripts/start.js",
+    "Meta/Scripts/New Text Document.txt",
     "Home.md",
     "Tasks/Temp.md",
     "Settings.md",
@@ -117,7 +119,6 @@
     "Tasks",
     "My-Obsidian-Template",
     "Meta/Scripts/executeCommand.js",
-    "Meta/Scripts/New Text Document.txt",
     "Meta/Scripts",
     "Meta/Views/header-message/view.css",
     "Meta/Views/header-message/view.js",

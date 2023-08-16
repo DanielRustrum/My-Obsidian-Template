@@ -9,7 +9,7 @@ button.addEventListener("click", () => {
 
 Pad.plugin(this)
 
-this.app.plugins.plugins["sample-plugin"].consoler()
+//this.app.plugins.plugins["dvo"].consoler()
 
 this.container.append(button)
 ```
