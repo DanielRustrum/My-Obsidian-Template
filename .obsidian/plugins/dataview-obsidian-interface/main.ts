@@ -20,7 +20,7 @@ export default class DVO extends Plugin {
 		await this.loadSettings();
 		
 		//@ts-ignore
-		this.app.plugins.plugins["dataview"].consoler = () => {
+		this.app.plugins.plugins["dataview"].api.consoler = () => {
 			console.log(this)
 		}
 

@@ -37,7 +37,7 @@ var DVO = class extends import_obsidian.Plugin {
   }
   async onload() {
     await this.loadSettings();
-    this.app.plugins.plugins["dataview"].consoler = () => {
+    this.app.plugins.plugins["dataview"].api.consoler = () => {
       console.log(this);
     };
     this.addSettingTab(new DVOSettingTab(this.app, this));
