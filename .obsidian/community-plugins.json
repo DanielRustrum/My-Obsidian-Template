@@ -1,15 +1,11 @@
 [
   "dataview",
-  "obsidian-admonition",
   "better-word-count",
-  "buttons",
   "cmdr",
-  "obsidian-dictionary-plugin",
   "cm-editor-syntax-highlight-obsidian",
-  "folder-note-plugin",
   "homepage",
-  "obsidian-icon-folder",
   "templater-obsidian",
   "metaedit",
-  "customjs"
+  "customjs",
+  "quickadd"
 ]

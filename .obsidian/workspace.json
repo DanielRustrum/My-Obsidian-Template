@@ -14,7 +14,7 @@
               "type": "markdown",
               "state": {
                 "file": "Home.md",
-                "mode": "source",
+                "mode": "preview",
                 "source": true
               }
             }
@@ -145,24 +145,26 @@
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
       "homepage:Open homepage": false,
-      "templater-obsidian:Templater": false
+      "templater-obsidian:Templater": false,
+      "cmdr:Commander: Add Task": false
     }
   },
   "active": "3666e83627bc7af6",
   "lastOpenFiles": [
+    "Settings.md",
+    "Tasks/Temp.md",
+    "Home.md",
+    "Meta/Templates/New Task.md",
+    "Tasks",
     "My-Obsidian-Template",
     "Meta/Scripts/executeCommand.js",
     "Meta/Scripts/New Text Document.txt",
     "Meta/Scripts",
-    "Settings.md",
-    "Home.md",
     "Meta/Views/header-message/view.css",
     "Meta/Views/header-message/view.js",
     "Meta/Views/header-message/view.css.txt",
     "Meta/Views/header-message/New Text Document.txt",
     "Meta/Views/header-message/view.js.txt",
-    "Meta/Views/header-message/Untitled.md",
-    "Meta/Views/header-message",
-    "Meta/Views"
+    "Meta/Views/header-message/Untitled.md"
   ]
 }

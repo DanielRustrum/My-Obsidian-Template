@@ -1,5 +1,4 @@
 ```dataviewjs
-dv.view("Meta/Views/header-message")
 const { Pad } = customJS
 
 let button = document.createElement("button")

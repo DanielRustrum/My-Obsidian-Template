@@ -1,15 +1,35 @@
 {
-  "confirmDeletion": true,
+  "confirmDeletion": false,
   "showAddCommand": true,
   "debug": false,
   "editorMenu": [],
   "fileMenu": [],
-  "leftRibbon": [],
+  "leftRibbon": [
+    {
+      "id": "cmdr:macro-0",
+      "icon": "bookmark-plus",
+      "name": "Commander: Add Task",
+      "mode": "any",
+      "color": "#00d5ff"
+    }
+  ],
   "rightRibbon": [],
   "titleBar": [],
   "statusBar": [],
   "pageHeader": [],
-  "macros": [],
+  "macros": [
+    {
+      "macro": [
+        {
+          "action": 0,
+          "commandId": "quickadd:choice:70cb92c1-d0ed-4d15-a6b2-77ed15becba3"
+        }
+      ],
+      "name": "Add Task",
+      "icon": "bookmark-plus",
+      "startup": false
+    }
+  ],
   "explorer": [],
   "hide": {
     "statusbar": [
