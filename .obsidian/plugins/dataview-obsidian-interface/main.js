@@ -37,7 +37,9 @@ var DVO = class extends import_obsidian.Plugin {
   }
   async onload() {
     await this.loadSettings();
-    this.consoler = this.consoler1;
+    this.consoler = () => {
+      console.log(this);
+    };
     this.addSettingTab(new DVOSettingTab(this.app, this));
   }
   onunload() {

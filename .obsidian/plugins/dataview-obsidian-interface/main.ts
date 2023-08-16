@@ -12,7 +12,7 @@ export default class DVO extends Plugin {
 	settings: DVOSettings;
 
 
-	consoler1() {
+	public consoler1() {
 		console.log(this)
 	}
 
@@ -20,7 +20,10 @@ export default class DVO extends Plugin {
 		await this.loadSettings();
 		
 		//@ts-ignore
-		this.consoler = this.consoler1
+		this.consoler = () => {
+			console.log(this)
+		}
+
 		
 		// This adds a settings tab so the user can configure various aspects of the plugin
 		this.addSettingTab(new DVOSettingTab(this.app, this));
