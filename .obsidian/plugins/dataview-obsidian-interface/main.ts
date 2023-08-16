@@ -11,17 +11,14 @@ const DEFAULT_SETTINGS: DVOSettings = {
 export default class DVO extends Plugin {
 	settings: DVOSettings;
 
-
-	public consoler1() {
-		console.log(this)
-	}
-
 	async onload() {
 		await this.loadSettings();
 		
 		//@ts-ignore
-		this.app.plugins.plugins["dataview"].api.consoler = () => {
-			console.log(this)
+		globalThis.DvO = {
+			consoler: () => {
+				console.log("here")
+			}
 		}
 
 		

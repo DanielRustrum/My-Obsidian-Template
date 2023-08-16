@@ -32,13 +32,12 @@ var DEFAULT_SETTINGS = {
   mySetting: "default"
 };
 var DVO = class extends import_obsidian.Plugin {
-  consoler1() {
-    console.log(this);
-  }
   async onload() {
     await this.loadSettings();
-    this.app.plugins.plugins["dataview"].api.consoler = () => {
-      console.log(this);
+    globalThis.DvO = {
+      consoler: () => {
+        console.log("here");
+      }
     };
     this.addSettingTab(new DVOSettingTab(this.app, this));
   }
