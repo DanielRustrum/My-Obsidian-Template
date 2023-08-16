@@ -24,25 +24,21 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // main.ts
 var main_exports = {};
 __export(main_exports, {
-  default: () => MyPlugin
+  default: () => DVO
 });
 module.exports = __toCommonJS(main_exports);
 var import_obsidian = require("obsidian");
 var DEFAULT_SETTINGS = {
   mySetting: "default"
 };
-var MyPlugin = class extends import_obsidian.Plugin {
+var DVO = class extends import_obsidian.Plugin {
   consoler1() {
     console.log(this);
   }
   async onload() {
     await this.loadSettings();
     this.consoler = this.consoler1;
-    this.addSettingTab(new SampleSettingTab(this.app, this));
-    this.registerDomEvent(document, "click", (evt) => {
-      console.log("click", evt);
-    });
-    this.registerInterval(window.setInterval(() => console.log("setInterval"), 5 * 60 * 1e3));
+    this.addSettingTab(new DVOSettingTab(this.app, this));
   }
   onunload() {
   }
@@ -53,7 +49,7 @@ var MyPlugin = class extends import_obsidian.Plugin {
     await this.saveData(this.settings);
   }
 };
-var SampleSettingTab = class extends import_obsidian.PluginSettingTab {
+var DVOSettingTab = class extends import_obsidian.PluginSettingTab {
   constructor(app, plugin) {
     super(app, plugin);
     this.plugin = plugin;
