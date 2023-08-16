@@ -20,7 +20,7 @@ export default class DVO extends Plugin {
 		await this.loadSettings();
 		
 		//@ts-ignore
-		this.consoler = () => {
+		this.app.consoler = () => {
 			console.log(this)
 		}
 
