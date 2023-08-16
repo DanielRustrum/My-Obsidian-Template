@@ -1,5 +1,5 @@
 class Start {
     async invoke() {
-        console.log(`inclass:`, this)
+        console.log(`inclass:`, globalThis)
     }
 }

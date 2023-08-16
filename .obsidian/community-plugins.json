@@ -1,10 +1,10 @@
 [
   "dataview",
-  "better-word-count",
-  "cmdr",
   "cm-editor-syntax-highlight-obsidian",
   "homepage",
   "customjs",
   "dvo-plugin",
-  "dvo"
+  "dvo",
+  "better-word-count",
+  "cmdr"
 ]

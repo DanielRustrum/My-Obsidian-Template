@@ -14,7 +14,7 @@
               "type": "markdown",
               "state": {
                 "file": "Home.md",
-                "mode": "preview",
+                "mode": "source",
                 "source": true
               }
             }
@@ -29,25 +29,17 @@
     "type": "split",
     "children": [
       {
-        "id": "4c0b7be4d17baa7a",
+        "id": "409c367249e5bd10",
         "type": "tabs",
         "children": [
           {
-            "id": "0e391d6da82deb93",
+            "id": "c6e3af72a63730e0",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical"
               }
-            }
-          },
-          {
-            "id": "348fddf3bbbdfc3d",
-            "type": "leaf",
-            "state": {
-              "type": "bookmarks",
-              "state": {}
             }
           }
         ]
@@ -103,18 +95,22 @@
   "left-ribbon": {
     "hiddenItems": {
       "command-palette:Open command palette": false,
-      "homepage:Open homepage": false,
-      "cmdr:Commander: Add Task": false,
-      "audio-recorder:Start/stop recording": false
+      "homepage:Open homepage": false
     }
   },
-  "active": "0e391d6da82deb93",
+  "active": "59dbc5d9f1c58f79",
   "lastOpenFiles": [
+    "Tasks/Second Test.md",
+    "Tasks/Test.md",
+    "Home.md",
+    "Settings.md",
+    "test.md",
+    "Tasks/test.md",
+    "Tasks/hi.md",
+    "Home.pdf",
     "Meta/Scripts/start.js",
     "Meta/Scripts/New Text Document.txt",
-    "Home.md",
     "Tasks/Temp.md",
-    "Settings.md",
     "Meta/Templates/New Task.md",
     "Tasks",
     "My-Obsidian-Template",
@@ -123,8 +119,6 @@
     "Meta/Views/header-message/view.css",
     "Meta/Views/header-message/view.js",
     "Meta/Views/header-message/view.css.txt",
-    "Meta/Views/header-message/New Text Document.txt",
-    "Meta/Views/header-message/view.js.txt",
     "Meta/Views/header-message/Untitled.md"
   ]
 }

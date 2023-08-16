@@ -4,32 +4,12 @@
   "debug": false,
   "editorMenu": [],
   "fileMenu": [],
-  "leftRibbon": [
-    {
-      "id": "cmdr:macro-0",
-      "icon": "bookmark-plus",
-      "name": "Commander: Add Task",
-      "mode": "any",
-      "color": "#00d5ff"
-    }
-  ],
+  "leftRibbon": [],
   "rightRibbon": [],
   "titleBar": [],
   "statusBar": [],
   "pageHeader": [],
-  "macros": [
-    {
-      "macro": [
-        {
-          "action": 0,
-          "commandId": "quickadd:choice:70cb92c1-d0ed-4d15-a6b2-77ed15becba3"
-        }
-      ],
-      "name": "Add Task",
-      "icon": "bookmark-plus",
-      "startup": false
-    }
-  ],
+  "macros": [],
   "explorer": [],
   "hide": {
     "statusbar": [
@@ -48,13 +28,13 @@
       "Open quick switcher"
     ]
   },
-  "spacing": "8",
+  "spacing": "23",
   "advancedToolbar": {
     "rowHeight": 48,
     "rowCount": 1,
     "spacing": 0,
     "buttonWidth": 48,
-    "columnLayout": false,
+    "columnLayout": true,
     "mappedIcons": [],
     "tooltips": false,
     "heightOffset": 0
