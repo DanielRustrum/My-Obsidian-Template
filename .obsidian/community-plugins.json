@@ -4,8 +4,6 @@
   "cmdr",
   "cm-editor-syntax-highlight-obsidian",
   "homepage",
-  "templater-obsidian",
-  "metaedit",
   "customjs",
-  "quickadd"
+  "dvo-plugin"
 ]

@@ -7,7 +7,9 @@ button.addEventListener("click", () => {
 	Pad.command(this.app, "app:open-help")
 })
 
-console.log(Pad.plugin(this))
+Pad.plugin(this)
+
+this.app.plugins.plugins["sample-plugin"].consoler()
 
 this.container.append(button)
 ```
