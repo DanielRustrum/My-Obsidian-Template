@@ -13,14 +13,14 @@ const DEFAULT_SETTINGS: MyPluginSettings = {
 export default class MyPlugin extends Plugin {
 	settings: MyPluginSettings;
 
-	consolethis() {
+	consoler1() {
 		console.log(this)
 	}
 
 	async onload() {
 		await this.loadSettings();
 
-		this.consolethis = this.consolethis
+		this.consoler = this.consoler
 
 		// This creates an icon in the left ribbon.
 		const ribbonIconEl = this.addRibbonIcon('dice', 'Sample Plugin', (evt: MouseEvent) => {
