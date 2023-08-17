@@ -36,7 +36,7 @@ var modal_map = /* @__PURE__ */ new Map();
 var collections = /* @__PURE__ */ new Map();
 var bin_path = "";
 function initCollections(app) {
-  bin_path = `${app.vault.configDir}/bin`;
+  bin_path = `./${app.vault.configDir}/bin`;
 }
 function saveCollections() {
   const fs = require("fs");
