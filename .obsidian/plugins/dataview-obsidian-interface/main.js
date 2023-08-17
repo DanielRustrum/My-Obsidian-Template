@@ -34,30 +34,24 @@ var DEFAULT_SETTINGS = {
 };
 var modal_map = /* @__PURE__ */ new Map();
 var collections = /* @__PURE__ */ new Map();
-var bin_path = "";
-function initCollections(app) {
-  bin_path = `./${app.vault.configDir}/bin`;
+var bin_folder;
+var plugin_app;
+async function initCollections(app) {
+  bin_folder = await app.vault.createFolder(`./${app.vault.configDir}/bin`);
+  plugin_app = app;
 }
 function saveCollections() {
-  const fs = require("fs");
   for (let [collection, data] of collections) {
-    fs.writeFile(`${bin_path}/${collection}.bucket`, data, (err) => {
-      if (err) {
-        console.error(err);
-      }
-    });
+    return plugin_app.vault.create(`${bin_folder}/${collection}.bucket`, data);
   }
 }
-function getCollection(collection) {
-  const fs = require("fs");
-  let result = null;
-  fs.readFile(`${bin_path}/${collection}.bucket`, "utf8", (err, data) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    result = data;
-  });
+async function getCollection(collection) {
+  for (let child of bin_folder.children) {
+    if (child.name === collection)
+      return JSON.parse(
+        await plugin_app.vault.read(child)
+      );
+  }
 }
 var DVOModal = class extends import_obsidian.Modal {
   constructor(app) {
@@ -81,11 +75,6 @@ var DVO = class extends import_obsidian.Plugin {
   async onload() {
     await this.loadSettings();
     initCollections(this.app);
-    const fs = require("fs");
-    console.log(this.app.vault.getRoot().path);
-    if (!fs.existsSync(bin_path)) {
-      fs.mkdirSync(bin_path);
-    }
     let plugin = this;
     globalThis.DvO = {
       command: (name, callback) => {

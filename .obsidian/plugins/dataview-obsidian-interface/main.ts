@@ -1,4 +1,5 @@
-import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
+import { throws } from 'assert';
+import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting, TFile, TFolder } from 'obsidian';
 
 interface DVOSettings {
 	mySetting: string;
@@ -10,34 +11,27 @@ const DEFAULT_SETTINGS: DVOSettings = {
 
 const modal_map = new Map<string, string>()
 const collections = new Map<string, any>()
-let bin_path = ""
+let bin_folder: TFolder;
+let plugin_app: App;
 
-function initCollections(app: App) {
-	bin_path = `./${app.vault.configDir}/bin`
+async function initCollections(app: App) {
+	bin_folder = await app.vault.createFolder(`./${app.vault.configDir}/bin`) as TFolder
+	plugin_app = app
 }
 
 function saveCollections() {
-	const fs = require('fs')
-
 	for(let [collection, data] of collections) {
-		fs.writeFile(`${bin_path}/${collection}.bucket`, data, (err: any) => {
-			if (err) {console.error(err)}
-		})
+		return plugin_app.vault.create(`${bin_folder}/${collection}.bucket`, data);
 	}
 }
 
-function getCollection(collection: string) {
-	const fs = require('fs')
-
-	let result = null
-
-	fs.readFile(`${bin_path}/${collection}.bucket`, 'utf8', (err: any, data: any) => {
-		if (err) {
-		  console.error(err)
-		  return
-		}
-		result = data
-	})
+async function getCollection(collection: string) {
+	for(let child of bin_folder.children) {
+		if(child.name === collection)
+			return JSON.parse(
+				await plugin_app.vault.read(child as TFile)
+			);
+	}
 }
 
 export class DVOModal extends Modal {
@@ -71,13 +65,6 @@ export default class DVO extends Plugin {
 	async onload() {
 		await this.loadSettings()
 		initCollections(this.app)
-		
-		const fs = require('fs')
-
-		console.log(this.app.vault.getRoot().path)
-		if (!fs.existsSync(bin_path)) {
-			fs.mkdirSync(bin_path)
-		}
 		
 		let plugin = this
 
