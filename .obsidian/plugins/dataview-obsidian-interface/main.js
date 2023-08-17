@@ -114,7 +114,11 @@ var DVO = class extends import_obsidian.Plugin {
             );
         },
         read: async (file) => {
-          console.log(plugin.app.vault);
+          if (file === "") {
+            console.log(plugin.app.vault.fileMap[""]);
+          } else {
+            console.log(plugin.app.vault.fileMap[file]);
+          }
           let vault_file = plugin.app.vault;
         },
         write: async (file, content) => {

@@ -115,7 +115,13 @@ export default class DVO extends Plugin {
 						)
 				},
 				read: async (file: string) => {
-					console.log(plugin.app.vault)
+					if(file === "") {
+						//@ts-ignore
+						console.log(plugin.app.vault.fileMap[""])
+					} else {
+						//@ts-ignore
+						console.log(plugin.app.vault.fileMap[file])
+					}
 					let vault_file = plugin.app.vault
 				},
 				write: async (file: string, content: string) => {},
