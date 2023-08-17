@@ -82,6 +82,7 @@ var DVO = class extends import_obsidian.Plugin {
     await this.loadSettings();
     initCollections(this.app);
     const fs = require("fs");
+    console.log(this.app.vault.getRoot().path);
     if (!fs.existsSync(bin_path)) {
       fs.mkdirSync(bin_path);
     }

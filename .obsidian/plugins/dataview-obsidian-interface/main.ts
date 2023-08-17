@@ -74,6 +74,7 @@ export default class DVO extends Plugin {
 		
 		const fs = require('fs')
 
+		console.log(this.app.vault.getRoot().path)
 		if (!fs.existsSync(bin_path)) {
 			fs.mkdirSync(bin_path)
 		}
