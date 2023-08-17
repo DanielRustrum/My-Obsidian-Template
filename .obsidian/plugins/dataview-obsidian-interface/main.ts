@@ -70,6 +70,7 @@ export default class DVO extends Plugin {
 
 	async onload() {
 		await this.loadSettings()
+		initCollections(this.app)
 		
 		const fs = require('fs')
 

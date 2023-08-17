@@ -35,6 +35,9 @@ var DEFAULT_SETTINGS = {
 var modal_map = /* @__PURE__ */ new Map();
 var collections = /* @__PURE__ */ new Map();
 var bin_path = "";
+function initCollections(app) {
+  bin_path = `${app.vault.getRoot().path}/.bin`;
+}
 function saveCollections() {
   const fs = require("fs");
   for (let [collection, data] of collections) {
@@ -77,6 +80,7 @@ var DVOModal = class extends import_obsidian.Modal {
 var DVO = class extends import_obsidian.Plugin {
   async onload() {
     await this.loadSettings();
+    initCollections(this.app);
     const fs = require("fs");
     if (!fs.existsSync(bin_path)) {
       fs.mkdirSync(bin_path);
