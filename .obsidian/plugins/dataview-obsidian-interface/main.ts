@@ -8,7 +8,38 @@ const DEFAULT_SETTINGS: DVOSettings = {
 	mySetting: 'default'
 }
 
-let modal_map = new Map<string, string>()
+const modal_map = new Map<string, string>()
+const collections = new Map<string, any>()
+let bin_path = ""
+
+function initCollections(app: App) {
+	bin_path = `${app.vault.getRoot().path}/.bin/`
+}
+
+function saveCollections() {
+	const fs = require('fs')
+
+	for(let [collection, data] of collections) {
+		fs.writeFile(`${bin_path}${collection}.bucket`, data, (err: any) => {
+			if (err) {console.error(err)}
+		})
+	}
+}
+
+function getCollection(collection: string) {
+	const fs = require('fs')
+
+	let result = null
+
+	fs.readFile(`${bin_path}${collection}.bucket`, 'utf8', (err: any, data: any) => {
+		if (err) {
+		  console.error(err)
+		  return
+		}
+		result = data
+	})
+}
+
 export class DVOModal extends Modal {
 	public id: string
 
@@ -18,13 +49,13 @@ export class DVOModal extends Modal {
 	}
   
 	onOpen() {
-		let { contentEl } = this;
+		let { contentEl } = this
 		contentEl.setText(modal_map.get(this.id) as string);
 	}
   
 	onClose() {
-	  	let { contentEl } = this;
-	  	contentEl.empty();
+	  	let { contentEl } = this
+	  	contentEl.empty()
 	}
 
 	setID(id: string) {
@@ -35,15 +66,22 @@ export class DVOModal extends Modal {
 
 
 export default class DVO extends Plugin {
-	settings: DVOSettings;
+	settings: DVOSettings
 
 	async onload() {
-		await this.loadSettings();
+		await this.loadSettings()
+		
+		const fs = require('fs')
+
+		if (!fs.existsSync(bin_path)) {
+			fs.mkdirSync(bin_path)
+		}
+		
 		let plugin = this
 
 		//@ts-ignore
 		globalThis.DvO = {
-			command: (name: string, callback: ()=>void) => {
+			command: (name: string, callback: () => void) => {
 				let id = name
 					.toLowerCase()
 					.replace(" ", "-")
@@ -54,27 +92,58 @@ export default class DVO extends Plugin {
 					callback
 				})
 			},
-			defineModal: (id:string, content:string) => {modal_map.set(id, content)},
-			openModal: (id:string) => {new DVOModal(this.app).setID(id).open()},
+			modal: {
+				define: (id:string, content:string) => {modal_map.set(id, content)},
+				open: (id:string) => {new DVOModal(this.app).setID(id).open()},
+			},
 			vault: {
-				createFile: async (path: string, content: string) => {this.app.vault.create(
-					`./${path}`, 
-					content === ""? "": content
-				)},
-				readFile: async (path: string) => {
-					// this.app.vault.read("")
+				create: async (path: string, content: string) => {
+					if(
+						path[path.length-1] === "/" || 
+						path[path.length-1] === "\\"
+					)
+						this.app.vault.createFolder(`./${path}`)
+					else
+						this.app.vault.create(
+							`./${path}.md`, 
+							content === ""? "": content
+						)
 				},
 				delete: async (path: string) => {}
+			},
+			storage: {
+				set: (collection: string, data: any) => {
+					if(Array.isArray(data))
+						collections.set(collection, [
+							...collections.get(collection), 
+							...data
+						])
+					else if(typeof data === "object")
+						collections.set(collection, {
+							...collections.get(collection), 
+							...data
+						})
+					else
+						collections.set(collection, data)
+				},
+				get: (collection: string) => {
+					let data = collections.get(collection)
+					
+					if(data === undefined) {
+						data = getCollection(collection)
+					}
+				},
+				save: () => {
+					saveCollections()
+				}
 			}
 		}
 
-		
-		// This adds a settings tab so the user can configure various aspects of the plugin
-		this.addSettingTab(new DVOSettingTab(this.app, this));
+		this.addSettingTab(new DVOSettingTab(this.app, this))
 	}
 
 	onunload() {
-
+		saveCollections()
 	}
 
 	async loadSettings() {

@@ -33,6 +33,29 @@ var DEFAULT_SETTINGS = {
   mySetting: "default"
 };
 var modal_map = /* @__PURE__ */ new Map();
+var collections = /* @__PURE__ */ new Map();
+var bin_path = "";
+function saveCollections() {
+  const fs = require("fs");
+  for (let [collection, data] of collections) {
+    fs.writeFile(`${bin_path}${collection}.bucket`, data, (err) => {
+      if (err) {
+        console.error(err);
+      }
+    });
+  }
+}
+function getCollection(collection) {
+  const fs = require("fs");
+  let result = null;
+  fs.readFile(`${bin_path}${collection}.bucket`, "utf8", (err, data) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    result = data;
+  });
+}
 var DVOModal = class extends import_obsidian.Modal {
   constructor(app) {
     super(app);
@@ -54,6 +77,10 @@ var DVOModal = class extends import_obsidian.Modal {
 var DVO = class extends import_obsidian.Plugin {
   async onload() {
     await this.loadSettings();
+    const fs = require("fs");
+    if (!fs.existsSync(bin_path)) {
+      fs.mkdirSync(bin_path);
+    }
     let plugin = this;
     globalThis.DvO = {
       command: (name, callback) => {
@@ -64,28 +91,57 @@ var DVO = class extends import_obsidian.Plugin {
           callback
         });
       },
-      defineModal: (id, content) => {
-        modal_map.set(id, content);
-      },
-      openModal: (id) => {
-        new DVOModal(this.app).setID(id).open();
+      modal: {
+        define: (id, content) => {
+          modal_map.set(id, content);
+        },
+        open: (id) => {
+          new DVOModal(this.app).setID(id).open();
+        }
       },
       vault: {
-        createFile: async (path, content) => {
-          this.app.vault.create(
-            `./${path}`,
-            content === "" ? "" : content
-          );
-        },
-        readFile: async (path) => {
+        create: async (path, content) => {
+          if (path[path.length - 1] === "/" || path[path.length - 1] === "\\")
+            this.app.vault.createFolder(`./${path}`);
+          else
+            this.app.vault.create(
+              `./${path}.md`,
+              content === "" ? "" : content
+            );
         },
         delete: async (path) => {
+        }
+      },
+      storage: {
+        set: (collection, data) => {
+          if (Array.isArray(data))
+            collections.set(collection, [
+              ...collections.get(collection),
+              ...data
+            ]);
+          else if (typeof data === "object")
+            collections.set(collection, {
+              ...collections.get(collection),
+              ...data
+            });
+          else
+            collections.set(collection, data);
+        },
+        get: (collection) => {
+          let data = collections.get(collection);
+          if (data === void 0) {
+            data = getCollection(collection);
+          }
+        },
+        save: () => {
+          saveCollections();
         }
       }
     };
     this.addSettingTab(new DVOSettingTab(this.app, this));
   }
   onunload() {
+    saveCollections();
   }
   async loadSettings() {
     this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
