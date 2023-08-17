@@ -38,7 +38,7 @@ var bin_path = "";
 function saveCollections() {
   const fs = require("fs");
   for (let [collection, data] of collections) {
-    fs.writeFile(`${bin_path}${collection}.bucket`, data, (err) => {
+    fs.writeFile(`${bin_path}/${collection}.bucket`, data, (err) => {
       if (err) {
         console.error(err);
       }
@@ -48,7 +48,7 @@ function saveCollections() {
 function getCollection(collection) {
   const fs = require("fs");
   let result = null;
-  fs.readFile(`${bin_path}${collection}.bucket`, "utf8", (err, data) => {
+  fs.readFile(`${bin_path}/${collection}.bucket`, "utf8", (err, data) => {
     if (err) {
       console.error(err);
       return;
@@ -132,6 +132,7 @@ var DVO = class extends import_obsidian.Plugin {
           if (data === void 0) {
             data = getCollection(collection);
           }
+          return data;
         },
         save: () => {
           saveCollections();

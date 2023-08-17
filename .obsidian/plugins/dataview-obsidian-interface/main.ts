@@ -13,14 +13,14 @@ const collections = new Map<string, any>()
 let bin_path = ""
 
 function initCollections(app: App) {
-	bin_path = `${app.vault.getRoot().path}/.bin/`
+	bin_path = `${app.vault.getRoot().path}/.bin`
 }
 
 function saveCollections() {
 	const fs = require('fs')
 
 	for(let [collection, data] of collections) {
-		fs.writeFile(`${bin_path}${collection}.bucket`, data, (err: any) => {
+		fs.writeFile(`${bin_path}/${collection}.bucket`, data, (err: any) => {
 			if (err) {console.error(err)}
 		})
 	}
@@ -31,7 +31,7 @@ function getCollection(collection: string) {
 
 	let result = null
 
-	fs.readFile(`${bin_path}${collection}.bucket`, 'utf8', (err: any, data: any) => {
+	fs.readFile(`${bin_path}/${collection}.bucket`, 'utf8', (err: any, data: any) => {
 		if (err) {
 		  console.error(err)
 		  return
@@ -117,14 +117,14 @@ export default class DVO extends Plugin {
 						collections.set(collection, [
 							...collections.get(collection), 
 							...data
-						])
+						]);
 					else if(typeof data === "object")
 						collections.set(collection, {
 							...collections.get(collection), 
 							...data
-						})
+						});
 					else
-						collections.set(collection, data)
+						collections.set(collection, data);
 				},
 				get: (collection: string) => {
 					let data = collections.get(collection)
@@ -132,6 +132,8 @@ export default class DVO extends Plugin {
 					if(data === undefined) {
 						data = getCollection(collection)
 					}
+
+					return data
 				},
 				save: () => {
 					saveCollections()
