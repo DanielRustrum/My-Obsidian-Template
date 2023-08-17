@@ -62,7 +62,8 @@ var DVOModal = class extends import_obsidian.Modal {
   }
   onOpen() {
     let { contentEl } = this;
-    contentEl.setText(modal_map.get(this.id));
+    let content = modal_map.get(this.id);
+    contentEl.append(content === void 0 ? "" : content);
   }
   onClose() {
     let { contentEl } = this;

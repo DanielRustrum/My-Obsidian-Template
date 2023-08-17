@@ -9,7 +9,7 @@ const DEFAULT_SETTINGS: DVOSettings = {
 	mySetting: 'default'
 }
 
-const modal_map = new Map<string, string>()
+const modal_map = new Map<string, string | HTMLElement | DocumentFragment>()
 const collections = new Map<string, any>()
 let bin_path: string;
 
@@ -49,7 +49,8 @@ export class DVOModal extends Modal {
   
 	onOpen() {
 		let { contentEl } = this
-		contentEl.setText(modal_map.get(this.id) as string);
+		let content = modal_map.get(this.id)
+		contentEl.append(content === undefined? "": content)
 	}
   
 	onClose() {
