@@ -11,37 +11,43 @@ const DEFAULT_SETTINGS: DVOSettings = {
 
 const modal_map = new Map<string, string>()
 const collections = new Map<string, any>()
-let bin_folder: TFolder;
+let bin_path: string;
 let plugin_app: App;
 
 async function initCollections(app: App) {
+	const fs = require('fs')
+	
 	try {
-		bin_folder = await app.vault.createFolder(`./${app.vault.configDir}/bin`) as TFolder
-	} catch {
 		//@ts-ignore
-		console.log(app.vault.adapter.basePath)
-		//@ts-ignore
-		console.log(app.vault.getRoot().vault.adapter.basePath)
+		bin_path = `${app.vault.adapter.basePath}/.obsidian/bin`
+	} catch (error) {
+		console.error(error)
 	}
+
+	if(!fs.existsSync(bin_path)) {
+		fs.mkdirSync(bin_path)
+	}
+
 	plugin_app = app
 }
 
 function saveCollections() {
+	const fs = require('fs')
+	
 	for(let [collection, data] of collections) {
-		return plugin_app.vault.create(
-			`${bin_folder}/${collection}.bucket`, 
+		fs.writeFile(
+			`${bin_path}/${collection}.bucket`, 
 			JSON.stringify(data)
-		);
+		)
 	}
 }
 
-async function getCollection(collection: string) {
-	for(let child of bin_folder.children) {
-		if(child.name === collection)
-			return JSON.parse(
-				await plugin_app.vault.read(child as TFile)
-			);
-	}
+function getCollection(collection: string) {
+	const fs = require('fs')
+
+	return JSON.parse(
+		fs.readFileSync(`${bin_path}/${collection}.bucket`)
+	);
 }
 
 export class DVOModal extends Modal {

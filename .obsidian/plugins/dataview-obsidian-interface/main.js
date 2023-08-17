@@ -34,32 +34,34 @@ var DEFAULT_SETTINGS = {
 };
 var modal_map = /* @__PURE__ */ new Map();
 var collections = /* @__PURE__ */ new Map();
-var bin_folder;
+var bin_path;
 var plugin_app;
 async function initCollections(app) {
+  const fs = require("fs");
   try {
-    bin_folder = await app.vault.createFolder(`./${app.vault.configDir}/bin`);
-  } catch (e) {
-    console.log(app.vault.adapter.basePath);
-    console.log(app.vault.getRoot().vault.adapter.basePath);
+    bin_path = `${app.vault.adapter.basePath}/.obsidian/bin`;
+  } catch (error) {
+    console.error(error);
+  }
+  if (!fs.existsSync(bin_path)) {
+    fs.mkdirSync(bin_path);
   }
   plugin_app = app;
 }
 function saveCollections() {
+  const fs = require("fs");
   for (let [collection, data] of collections) {
-    return plugin_app.vault.create(
-      `${bin_folder}/${collection}.bucket`,
+    fs.writeFile(
+      `${bin_path}/${collection}.bucket`,
       JSON.stringify(data)
     );
   }
 }
-async function getCollection(collection) {
-  for (let child of bin_folder.children) {
-    if (child.name === collection)
-      return JSON.parse(
-        await plugin_app.vault.read(child)
-      );
-  }
+function getCollection(collection) {
+  const fs = require("fs");
+  return JSON.parse(
+    fs.readFileSync(`${bin_path}/${collection}.bucket`)
+  );
 }
 var DVOModal = class extends import_obsidian.Modal {
   constructor(app) {
