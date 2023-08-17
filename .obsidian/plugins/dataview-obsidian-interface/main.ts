@@ -18,7 +18,7 @@ async function initCollections(app: App) {
 	try {
 		bin_folder = await app.vault.createFolder(`./${app.vault.configDir}/bin`) as TFolder
 	} catch {
-		console.log(app.vault.getFiles())
+		console.log(app.vault.getRoot())
 	}
 	plugin_app = app
 }

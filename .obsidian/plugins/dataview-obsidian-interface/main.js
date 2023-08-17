@@ -40,7 +40,7 @@ async function initCollections(app) {
   try {
     bin_folder = await app.vault.createFolder(`./${app.vault.configDir}/bin`);
   } catch (e) {
-    console.log(app.vault.getFiles());
+    console.log(app.vault.getRoot());
   }
   plugin_app = app;
 }
