@@ -102,7 +102,7 @@ export default class DVO extends Plugin {
 				open: (id:string) => {new DVOModal(this.app).setID(id).open()},
 			},
 			vault: {
-				create: async (path: string, content: string) => {
+				create: async (path: string, content: string = "") => {
 					if(
 						path[path.length-1] === "/" || 
 						path[path.length-1] === "\\"
@@ -114,7 +114,15 @@ export default class DVO extends Plugin {
 							content === ""? "": content
 						)
 				},
-				delete: async (path: string) => {}
+				read: async (file: string) => {
+					console.log(plugin.app.vault)
+					let vault_file = plugin.app.vault
+				},
+				write: async (file: string, content: string) => {},
+				append: async (file: string, content: string) => {},
+				delete: async (file: string) => {
+
+				}
 			},
 			storage: {
 				set: (collection: string, data: any) => {
@@ -142,6 +150,10 @@ export default class DVO extends Plugin {
 				},
 				save: () => {
 					saveCollections()
+				},
+				delete: (collection: string) => {
+					const fs = require('fs')
+					fs.unlinkSync(`${bin_path}/${collection}.bucket`)
 				}
 			}
 		}

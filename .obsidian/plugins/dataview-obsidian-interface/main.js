@@ -104,7 +104,7 @@ var DVO = class extends import_obsidian.Plugin {
         }
       },
       vault: {
-        create: async (path, content) => {
+        create: async (path, content = "") => {
           if (path[path.length - 1] === "/" || path[path.length - 1] === "\\")
             this.app.vault.createFolder(`./${path}`);
           else
@@ -113,7 +113,15 @@ var DVO = class extends import_obsidian.Plugin {
               content === "" ? "" : content
             );
         },
-        delete: async (path) => {
+        read: async (file) => {
+          console.log(plugin.app.vault);
+          let vault_file = plugin.app.vault;
+        },
+        write: async (file, content) => {
+        },
+        append: async (file, content) => {
+        },
+        delete: async (file) => {
         }
       },
       storage: {
@@ -140,6 +148,10 @@ var DVO = class extends import_obsidian.Plugin {
         },
         save: () => {
           saveCollections();
+        },
+        delete: (collection) => {
+          const fs = require("fs");
+          fs.unlinkSync(`${bin_path}/${collection}.bucket`);
         }
       }
     };
