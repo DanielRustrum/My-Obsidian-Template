@@ -42,7 +42,10 @@ async function initCollections(app) {
 }
 function saveCollections() {
   for (let [collection, data] of collections) {
-    return plugin_app.vault.create(`${bin_folder}/${collection}.bucket`, data);
+    return plugin_app.vault.create(
+      `${bin_folder}/${collection}.bucket`,
+      JSON.stringify(data)
+    );
   }
 }
 async function getCollection(collection) {
