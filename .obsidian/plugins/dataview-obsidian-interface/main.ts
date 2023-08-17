@@ -35,7 +35,7 @@ function saveCollections() {
 	const fs = require('fs')
 	
 	for(let [collection, data] of collections) {
-		fs.writeFile(
+		fs.writeFileSync(
 			`${bin_path}/${collection}.bucket`, 
 			JSON.stringify(data)
 		)
