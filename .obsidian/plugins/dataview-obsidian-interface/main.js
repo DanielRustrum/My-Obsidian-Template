@@ -37,7 +37,11 @@ var collections = /* @__PURE__ */ new Map();
 var bin_folder;
 var plugin_app;
 async function initCollections(app) {
-  bin_folder = await app.vault.createFolder(`./${app.vault.configDir}/bin`);
+  try {
+    bin_folder = await app.vault.createFolder(`./${app.vault.configDir}/bin`);
+  } catch (e) {
+    console.log(app.vault.getFiles());
+  }
   plugin_app = app;
 }
 function saveCollections() {
