@@ -13,7 +13,7 @@ const collections = new Map<string, any>()
 let bin_path = ""
 
 function initCollections(app: App) {
-	bin_path = `${app.vault.getRoot().path}/.bin`
+	bin_path = `${app.vault.getRoot().path}/.obsidian/bin`
 }
 
 function saveCollections() {
