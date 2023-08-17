@@ -12,7 +12,6 @@ const DEFAULT_SETTINGS: DVOSettings = {
 const modal_map = new Map<string, string>()
 const collections = new Map<string, any>()
 let bin_path: string;
-let plugin_app: App;
 
 async function initCollections(app: App) {
 	const fs = require('fs')
@@ -27,8 +26,6 @@ async function initCollections(app: App) {
 	if(!fs.existsSync(bin_path)) {
 		fs.mkdirSync(bin_path)
 	}
-
-	plugin_app = app
 }
 
 function saveCollections() {
@@ -40,14 +37,6 @@ function saveCollections() {
 			JSON.stringify(data)
 		)
 	}
-}
-
-function getCollection(collection: string) {
-	const fs = require('fs')
-
-	return JSON.parse(
-		fs.readFileSync(`${bin_path}/${collection}.bucket`)
-	);
 }
 
 export class DVOModal extends Modal {
@@ -115,19 +104,56 @@ export default class DVO extends Plugin {
 						)
 				},
 				read: async (file: string) => {
+					let vault_file;
+
 					if(file === "") {
 						//@ts-ignore
-						console.log(plugin.app.vault.fileMap[""])
+						vault_file = plugin.app.vault.fileMap[""]
 					} else {
 						//@ts-ignore
-						console.log(plugin.app.vault.fileMap[file])
+						vault_file = plugin.app.vault.fileMap[file]
 					}
-					let vault_file = plugin.app.vault
-				},
-				write: async (file: string, content: string) => {},
-				append: async (file: string, content: string) => {},
-				delete: async (file: string) => {
 
+					return await plugin.app.vault.read(vault_file)
+				},
+				write: async (file: string, content: string) => {
+					let vault_file;
+
+					if(file === "") {
+						//@ts-ignore
+						vault_file = plugin.app.vault.fileMap[""]
+					} else {
+						//@ts-ignore
+						vault_file = plugin.app.vault.fileMap[file]
+					}
+
+					return await plugin.app.vault.modify(vault_file, content)
+				},
+				append: async (file: string, content: string) => {
+					let vault_file;
+
+					if(file === "") {
+						//@ts-ignore
+						vault_file = plugin.app.vault.fileMap[""]
+					} else {
+						//@ts-ignore
+						vault_file = plugin.app.vault.fileMap[file]
+					}
+
+					return await plugin.app.vault.append(vault_file, content)
+				},
+				delete: async (file: string) => {
+					let vault_file;
+
+					if(file === "") {
+						//@ts-ignore
+						vault_file = plugin.app.vault.fileMap[""]
+					} else {
+						//@ts-ignore
+						vault_file = plugin.app.vault.fileMap[file]
+					}
+
+					return await plugin.app.vault.delete(vault_file, true)
 				}
 			},
 			storage: {
@@ -149,7 +175,11 @@ export default class DVO extends Plugin {
 					let data = collections.get(collection)
 					
 					if(data === undefined) {
-						data = getCollection(collection)
+						const fs = require('fs')
+
+						data = JSON.parse(
+							fs.readFileSync(`${bin_path}/${collection}.bucket`)
+						)
 					}
 
 					return data

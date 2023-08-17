@@ -35,7 +35,6 @@ var DEFAULT_SETTINGS = {
 var modal_map = /* @__PURE__ */ new Map();
 var collections = /* @__PURE__ */ new Map();
 var bin_path;
-var plugin_app;
 async function initCollections(app) {
   const fs = require("fs");
   try {
@@ -46,7 +45,6 @@ async function initCollections(app) {
   if (!fs.existsSync(bin_path)) {
     fs.mkdirSync(bin_path);
   }
-  plugin_app = app;
 }
 function saveCollections() {
   const fs = require("fs");
@@ -56,12 +54,6 @@ function saveCollections() {
       JSON.stringify(data)
     );
   }
-}
-function getCollection(collection) {
-  const fs = require("fs");
-  return JSON.parse(
-    fs.readFileSync(`${bin_path}/${collection}.bucket`)
-  );
 }
 var DVOModal = class extends import_obsidian.Modal {
   constructor(app) {
@@ -114,18 +106,40 @@ var DVO = class extends import_obsidian.Plugin {
             );
         },
         read: async (file) => {
+          let vault_file;
           if (file === "") {
-            console.log(plugin.app.vault.fileMap[""]);
+            vault_file = plugin.app.vault.fileMap[""];
           } else {
-            console.log(plugin.app.vault.fileMap[file]);
+            vault_file = plugin.app.vault.fileMap[file];
           }
-          let vault_file = plugin.app.vault;
+          return await plugin.app.vault.read(vault_file);
         },
         write: async (file, content) => {
+          let vault_file;
+          if (file === "") {
+            vault_file = plugin.app.vault.fileMap[""];
+          } else {
+            vault_file = plugin.app.vault.fileMap[file];
+          }
+          return await plugin.app.vault.modify(vault_file, content);
         },
         append: async (file, content) => {
+          let vault_file;
+          if (file === "") {
+            vault_file = plugin.app.vault.fileMap[""];
+          } else {
+            vault_file = plugin.app.vault.fileMap[file];
+          }
+          return await plugin.app.vault.append(vault_file, content);
         },
         delete: async (file) => {
+          let vault_file;
+          if (file === "") {
+            vault_file = plugin.app.vault.fileMap[""];
+          } else {
+            vault_file = plugin.app.vault.fileMap[file];
+          }
+          return await plugin.app.vault.delete(vault_file, true);
         }
       },
       storage: {
@@ -146,7 +160,10 @@ var DVO = class extends import_obsidian.Plugin {
         get: (collection) => {
           let data = collections.get(collection);
           if (data === void 0) {
-            data = getCollection(collection);
+            const fs = require("fs");
+            data = JSON.parse(
+              fs.readFileSync(`${bin_path}/${collection}.bucket`)
+            );
           }
           return data;
         },
