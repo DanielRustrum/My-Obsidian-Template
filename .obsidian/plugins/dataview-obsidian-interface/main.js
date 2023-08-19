@@ -35,17 +35,6 @@ var DEFAULT_SETTINGS = {
 var modal_map = /* @__PURE__ */ new Map();
 var collections = /* @__PURE__ */ new Map();
 var bin_path;
-async function initCollections(app) {
-  const fs = require("fs");
-  try {
-    bin_path = `${app.vault.adapter.basePath}/Meta/Database`;
-  } catch (error) {
-    console.error(error);
-  }
-  if (!fs.existsSync(bin_path)) {
-    fs.mkdirSync(bin_path);
-  }
-}
 var DVOModal = class extends import_obsidian.Modal {
   constructor(app) {
     super(app);
@@ -68,8 +57,9 @@ var DVOModal = class extends import_obsidian.Modal {
 var DVO = class extends import_obsidian.Plugin {
   async onload() {
     await this.loadSettings();
-    initCollections(this.app);
     let plugin = this;
+    bin_path = `$./Meta/Database`;
+    this.app.vault.createFolder(bin_path);
     globalThis.DvO = {
       command: (name, callback) => {
         let id = name.toLowerCase().replace(" ", "-");
@@ -185,7 +175,7 @@ var DVO = class extends import_obsidian.Plugin {
         },
         delete: async (collection) => {
           let vault_file = plugin.app.vault.fileMap[`${bin_path}/${collection}.bucket`];
-          return await plugin.app.vault.delete(vault_file, true);
+          await plugin.app.vault.delete(vault_file, true);
         }
       },
       dom: {

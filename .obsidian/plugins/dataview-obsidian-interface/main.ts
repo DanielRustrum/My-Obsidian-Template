@@ -13,32 +13,6 @@ const modal_map = new Map<string, string | HTMLElement | DocumentFragment>()
 const collections = new Map<string, any>()
 let bin_path: string;
 
-async function initCollections(app: App) {
-	const fs = require('fs')
-	
-	try {
-		//@ts-ignore
-		bin_path = `${app.vault.adapter.basePath}/Meta/Database`
-	} catch (error) {
-		console.error(error)
-	}
-
-	if(!fs.existsSync(bin_path)) {
-		fs.mkdirSync(bin_path)
-	}
-}
-
-function saveCollections() {
-	const fs = require('fs')
-	
-	for(let [collection, data] of collections) {
-		fs.writeFileSync(
-			`${bin_path}/${collection}.bucket`, 
-			JSON.stringify(data)
-		)
-	}
-}
-
 export class DVOModal extends Modal {
 	public id: string
 
@@ -64,15 +38,16 @@ export class DVOModal extends Modal {
 	}
 }
 
-
 export default class DVO extends Plugin {
 	settings: DVOSettings
 
 	async onload() {
 		await this.loadSettings()
-		initCollections(this.app)
 		
 		let plugin = this
+		bin_path = `$./Meta/Database`
+
+		this.app.vault.createFolder(bin_path)
 
 		//@ts-ignore
 		globalThis.DvO = {
@@ -201,7 +176,7 @@ export default class DVO extends Plugin {
 					for(let [collection, data] of collections) {
 						//@ts-ignore
 						let vault_file = plugin.app.vault.fileMap[`${bin_path}/${collection}.bucket`]
-						
+
 						try {
 							plugin.app.vault.create(
 								vault_file, 
@@ -220,7 +195,7 @@ export default class DVO extends Plugin {
 					//@ts-ignore
 					let vault_file = plugin.app.vault.fileMap[`${bin_path}/${collection}.bucket`]
 
-					return await plugin.app.vault.delete(vault_file, true)
+					await plugin.app.vault.delete(vault_file, true)
 				}
 			},
 			dom: {
