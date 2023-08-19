@@ -18,7 +18,7 @@ async function initCollections(app: App) {
 	
 	try {
 		//@ts-ignore
-		bin_path = `${app.vault.adapter.basePath}/.obsidian/bin`
+		bin_path = `${app.vault.adapter.basePath}/Meta/Database`
 	} catch (error) {
 		console.error(error)
 	}
@@ -155,6 +155,17 @@ export default class DVO extends Plugin {
 					}
 
 					return await plugin.app.vault.delete(vault_file, true)
+				},
+				metadata: async (file: string) => {
+					let vault_file;
+
+					if(file === "") {
+						//@ts-ignore
+						vault_file = plugin.app.vault.fileMap[""]
+					} else {
+						//@ts-ignore
+						vault_file = plugin.app.vault.fileMap[file]
+					}
 				}
 			},
 			storage: {
@@ -172,34 +183,66 @@ export default class DVO extends Plugin {
 					else
 						collections.set(collection, data);
 				},
-				get: (collection: string) => {
+				get: async (collection: string) => {
 					let data = collections.get(collection)
 					
 					if(data === undefined) {
-						const fs = require('fs')
+						//@ts-ignore
+						let vault_file = plugin.app.vault.fileMap[`${bin_path}/${collection}.bucket`]
 
 						data = JSON.parse(
-							fs.readFileSync(`${bin_path}/${collection}.bucket`)
+							await plugin.app.vault.read(vault_file)
 						)
 					}
 
 					return data
 				},
-				save: () => {
-					saveCollections()
+				save: () => {	
+					for(let [collection, data] of collections) {
+						//@ts-ignore
+						let vault_file = plugin.app.vault.fileMap[`${bin_path}/${collection}.bucket`]
+						
+						try {
+							plugin.app.vault.create(
+								vault_file, 
+								JSON.stringify(data)
+							)								
+						}
+						catch(error) {
+							plugin.app.vault.modify(
+								vault_file, 
+								JSON.stringify(data)
+							)	
+						}
+					}
 				},
-				delete: (collection: string) => {
-					const fs = require('fs')
-					fs.unlinkSync(`${bin_path}/${collection}.bucket`)
+				delete: async (collection: string) => {
+					//@ts-ignore
+					let vault_file = plugin.app.vault.fileMap[`${bin_path}/${collection}.bucket`]
+
+					return await plugin.app.vault.delete(vault_file, true)
 				}
-			}
+			},
+			dom: {
+				script: (src: string) => {},
+				css: (styles: string) => {}
+			},
+			jobs: {},
+			settings: {}
 		}
 
 		this.addSettingTab(new DVOSettingTab(this.app, this))
 	}
 
 	onunload() {
-		saveCollections()
+		const fs = require('fs')
+	
+		for(let [collection, data] of collections) {
+			fs.writeFileSync(
+				`${bin_path}/${collection}.bucket`, 
+				JSON.stringify(data)
+			)
+		}
 	}
 
 	async loadSettings() {
