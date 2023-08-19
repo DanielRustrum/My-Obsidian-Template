@@ -38,21 +38,12 @@ var bin_path;
 async function initCollections(app) {
   const fs = require("fs");
   try {
-    bin_path = `${app.vault.adapter.basePath}/.obsidian/bin`;
+    bin_path = `${app.vault.adapter.basePath}/Meta/Database`;
   } catch (error) {
     console.error(error);
   }
   if (!fs.existsSync(bin_path)) {
     fs.mkdirSync(bin_path);
-  }
-}
-function saveCollections() {
-  const fs = require("fs");
-  for (let [collection, data] of collections) {
-    fs.writeFileSync(
-      `${bin_path}/${collection}.bucket`,
-      JSON.stringify(data)
-    );
   }
 }
 var DVOModal = class extends import_obsidian.Modal {
@@ -141,6 +132,14 @@ var DVO = class extends import_obsidian.Plugin {
             vault_file = plugin.app.vault.fileMap[file];
           }
           return await plugin.app.vault.delete(vault_file, true);
+        },
+        metadata: async (file) => {
+          let vault_file;
+          if (file === "") {
+            vault_file = plugin.app.vault.fileMap[""];
+          } else {
+            vault_file = plugin.app.vault.fileMap[file];
+          }
         }
       },
       storage: {
@@ -158,29 +157,56 @@ var DVO = class extends import_obsidian.Plugin {
           else
             collections.set(collection, data);
         },
-        get: (collection) => {
+        get: async (collection) => {
           let data = collections.get(collection);
           if (data === void 0) {
-            const fs = require("fs");
+            let vault_file = plugin.app.vault.fileMap[`${bin_path}/${collection}.bucket`];
             data = JSON.parse(
-              fs.readFileSync(`${bin_path}/${collection}.bucket`)
+              await plugin.app.vault.read(vault_file)
             );
           }
           return data;
         },
         save: () => {
-          saveCollections();
+          for (let [collection, data] of collections) {
+            let vault_file = plugin.app.vault.fileMap[`${bin_path}/${collection}.bucket`];
+            try {
+              plugin.app.vault.create(
+                vault_file,
+                JSON.stringify(data)
+              );
+            } catch (error) {
+              plugin.app.vault.modify(
+                vault_file,
+                JSON.stringify(data)
+              );
+            }
+          }
         },
-        delete: (collection) => {
-          const fs = require("fs");
-          fs.unlinkSync(`${bin_path}/${collection}.bucket`);
+        delete: async (collection) => {
+          let vault_file = plugin.app.vault.fileMap[`${bin_path}/${collection}.bucket`];
+          return await plugin.app.vault.delete(vault_file, true);
         }
-      }
+      },
+      dom: {
+        script: (src) => {
+        },
+        css: (styles) => {
+        }
+      },
+      jobs: {},
+      settings: {}
     };
     this.addSettingTab(new DVOSettingTab(this.app, this));
   }
   onunload() {
-    saveCollections();
+    const fs = require("fs");
+    for (let [collection, data] of collections) {
+      fs.writeFileSync(
+        `${bin_path}/${collection}.bucket`,
+        JSON.stringify(data)
+      );
+    }
   }
   async loadSettings() {
     this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
