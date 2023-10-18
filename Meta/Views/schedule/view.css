@@ -1,0 +1,33 @@
+.schedule-buttons {
+    display: flex;
+    gap: 5px;
+    
+}
+.schedule-buttons > * {
+    padding: auto;
+}
+
+.schedule-lists {
+    display: flex;
+    justify-content: space-between;
+}
+
+.list-primary {
+    min-width: 500px;
+}
+
+.list-side {
+    display: flex;
+    justify-content: flex-start;
+    min-width: 300px;
+    flex-direction: column;
+}
+
+@media screen and (max-width: 750px) {
+    .schedule-lists > * {
+        min-width: 100px;
+    }
+    .schedule-buttons {
+        flex-direction: column;
+    }
+}

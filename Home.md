@@ -23,12 +23,20 @@ input.addEventListener("input", event => {
 button.addEventListener("click", () => {
 	wrapper.hidden = !wrapper.hidden
 })
-input_button.addEventListener("click", () => {
-	DvO.vault.createFile(`Tasks/${input_value}.md`, task_template)
+input_button.addEventListener("click", async () => {
+	await DvO.vault.createFile(`Tasks/${input_value}.md`, task_template)
 })
 
 this.container.append(button)
 wrapper.append(input)
 wrapper.append(input_button)
 this.container.append(wrapper)
+```
+```dataviewjs
+(async () => {
+	await DvO.vault.read("test.md")
+	await DvO.storage.set("test", "tesrt")
+	await DvO.storage.save()
+	console.log(await DvO.storge.get("test"))
+})();
 ```
