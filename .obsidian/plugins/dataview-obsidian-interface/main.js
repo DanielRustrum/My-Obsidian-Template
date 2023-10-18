@@ -157,16 +157,17 @@ var DVO = class extends import_obsidian.Plugin {
           }
           return data;
         },
-        save: () => {
+        save: async () => {
           for (let [collection, data] of collections) {
             let vault_file = plugin.app.vault.fileMap[`${bin_path}/${collection}.bucket`];
             try {
-              plugin.app.vault.create(
+              await plugin.app.vault.create(
                 vault_file,
                 JSON.stringify(data)
               );
             } catch (error) {
-              plugin.app.vault.modify(
+              console.log(error);
+              await plugin.app.vault.modify(
                 vault_file,
                 JSON.stringify(data)
               );
