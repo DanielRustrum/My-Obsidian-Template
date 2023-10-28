@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "67e43e420a4fbc89",
+        "id": "fd37cd817c1291d3",
         "type": "tabs",
         "children": [
           {
-            "id": "1efff25696ce663a",
+            "id": "de77027700fcd8c5",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -18,8 +18,21 @@
                 "source": true
               }
             }
+          },
+          {
+            "id": "cd47c799b5fe1db2",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Home.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -62,7 +75,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Scheduling.md",
+                "file": "Home.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -79,7 +92,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Scheduling.md",
+                "file": "Home.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -98,31 +111,34 @@
       "homepage:Open homepage": false
     }
   },
-  "active": "1efff25696ce663a",
+  "active": "cd47c799b5fe1db2",
   "lastOpenFiles": [
-    "Home.md",
     "Scheduling.md",
-    "Scheduling/Routine/Test.md",
-    "Scheduling/Events/Test.md",
+    "Home.md",
     "Scheduling/Tasks/Test.md",
+    "Scheduling/Routines/Last week.md",
+    "Scheduling/Routines/Monthly.md",
+    "Scheduling/Routines/Test.md",
     "Settings.md",
+    "Scheduling/Events/Test1.md",
+    "Scheduling/Events/Test.md",
+    "Scheduling/Events/Test1",
+    "Meta/Templates/New Task.md",
     "test.md",
     "Meta/Views/group/view.js",
     "Meta/Views/group/view.css",
     "Meta/Views/group",
     "Scheduling/Tasks",
-    "Scheduling/Routine",
+    "Scheduling/Routines",
     "Scheduling/Events",
     "Scheduling",
     "Meta/Views/button-group/view.js",
     "Meta/Views/button-group/view.css",
-    "Meta/Views/button-group",
     "Tasks/Second Test.md",
     "Tasks/Test.md",
     "Tasks/test.md",
     "Tasks/hi.md",
     "Tasks/Temp.md",
-    "Meta/Templates/New Task.md",
     "Meta/Views/header-message/Untitled.md"
   ]
 }

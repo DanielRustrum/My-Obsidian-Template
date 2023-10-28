@@ -1,29 +1,45 @@
 .schedule-buttons {
     display: flex;
     gap: 5px;
+    flex-direction: column;
+    padding-top: 20px;
     
-}
-.schedule-buttons > * {
-    padding: auto;
 }
 
 .schedule-lists {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.schedule-lists > button {
+    flex: 0 0 100%;
 }
 
 .list-primary {
-    min-width: 500px;
+    /* min-width: 400px; */
 }
 
 .list-side {
     display: flex;
     justify-content: flex-start;
-    min-width: 300px;
+    min-width: 200px;
     flex-direction: column;
 }
 
+.schedule-list-instance {
+    padding: 0px !important;
+}
+
 @media screen and (max-width: 750px) {
+    .schedule-lists {
+        flex-direction: column;
+    }
+
+    .list-side {
+        padding-top: 10px;
+    }
+
     .schedule-lists > * {
         min-width: 100px;
     }

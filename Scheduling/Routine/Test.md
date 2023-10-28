@@ -1,4 +1,0 @@
----
-Show On: Monday
----
-Description

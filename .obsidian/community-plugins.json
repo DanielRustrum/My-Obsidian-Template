@@ -5,5 +5,9 @@
   "customjs",
   "dvo-plugin",
   "dvo",
-  "cmdr"
+  "cmdr",
+  "folder-note-plugin",
+  "obsidian-icon-folder",
+  "obsidian-icons-plugin",
+  "obsidian-dictionary-plugin"
 ]
