@@ -4,10 +4,10 @@
   "homepage",
   "customjs",
   "dvo-plugin",
-  "dvo",
   "cmdr",
   "folder-note-plugin",
   "obsidian-icon-folder",
   "obsidian-icons-plugin",
-  "obsidian-dictionary-plugin"
+  "obsidian-dictionary-plugin",
+  "dvo"
 ]

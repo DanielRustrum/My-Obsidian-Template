@@ -1,5 +1,6 @@
-import { throws } from 'assert';
+		//@ts-ignore
 import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting, TFile, TFolder } from 'obsidian';
+import * as template from './template'
 
 interface DVOSettings {
 	mySetting: string;
@@ -22,12 +23,14 @@ export class DVOModal extends Modal {
 	}
   
 	onOpen() {
+		//@ts-ignore
 		let { contentEl } = this
 		let content = modal_map.get(this.id)
 		contentEl.append(content === undefined? "": content)
 	}
   
 	onClose() {
+		//@ts-ignore
 	  	let { contentEl } = this
 	  	contentEl.empty()
 	}
@@ -41,13 +44,18 @@ export class DVOModal extends Modal {
 export default class DVO extends Plugin {
 	settings: DVOSettings
 
+		//@ts-ignore
 	async onload() {
 		await this.loadSettings()
 		
 		let plugin = this
-		bin_path = `$./Meta/Database`
+		bin_path = `/Meta/Database`
 
-		this.app.vault.createFolder(bin_path)
+		// try {
+		// 	this.app.vault.createFolder(bin_path)
+		// } catch (error) {
+			
+		// }
 
 		//@ts-ignore
 		globalThis.DvO = {
@@ -56,6 +64,7 @@ export default class DVO extends Plugin {
 					.toLowerCase()
 					.replace(" ", "-")
 
+		//@ts-ignore
 				plugin.addCommand({
 					id,
 					name,
@@ -64,16 +73,20 @@ export default class DVO extends Plugin {
 			},
 			modal: {
 				define: (id:string, content:string) => {modal_map.set(id, content)},
+		//@ts-ignore
 				open: (id:string) => {new DVOModal(this.app).setID(id).open()},
 			},
 			vault: {
+		//@ts-ignore
 				create: async (path: string, content: string = "") => {
 					if(
 						path[path.length-1] === "/" || 
 						path[path.length-1] === "\\"
 					)
+		//@ts-ignore
 						this.app.vault.createFolder(`./${path}`)
 					else
+		//@ts-ignore
 						this.app.vault.create(
 							`./${path}.md`, 
 							content === ""? "": content
@@ -90,6 +103,7 @@ export default class DVO extends Plugin {
 						vault_file = plugin.app.vault.fileMap[file]
 					}
 
+		//@ts-ignore
 					return await plugin.app.vault.read(vault_file)
 				},
 				write: async (file: string, content: string) => {
@@ -103,8 +117,10 @@ export default class DVO extends Plugin {
 						vault_file = plugin.app.vault.fileMap[file]
 					}
 
+		//@ts-ignore
 					return await plugin.app.vault.modify(vault_file, content)
 				},
+		//@ts-ignore
 				append: async (file: string, content: string) => {
 					let vault_file;
 
@@ -116,6 +132,7 @@ export default class DVO extends Plugin {
 						vault_file = plugin.app.vault.fileMap[file]
 					}
 
+		//@ts-ignore
 					return await plugin.app.vault.append(vault_file, content)
 				},
 				delete: async (file: string) => {
@@ -129,6 +146,7 @@ export default class DVO extends Plugin {
 						vault_file = plugin.app.vault.fileMap[file]
 					}
 
+		//@ts-ignore
 					return await plugin.app.vault.delete(vault_file, true)
 				},
 				metadata: async (file: string) => {
@@ -166,6 +184,7 @@ export default class DVO extends Plugin {
 						let vault_file = plugin.app.vault.fileMap[`${bin_path}/${collection}.bucket`]
 
 						data = JSON.parse(
+		//@ts-ignore
 							await plugin.app.vault.read(vault_file)
 						)
 					}
@@ -178,6 +197,7 @@ export default class DVO extends Plugin {
 						let vault_file = plugin.app.vault.fileMap[`${bin_path}/${collection}.bucket`]
 
 						try {
+		//@ts-ignore
 							await plugin.app.vault.create(
 								vault_file, 
 								JSON.stringify(data)
@@ -185,6 +205,7 @@ export default class DVO extends Plugin {
 						}
 						catch(error) {
 							console.log(error)
+		//@ts-ignore
 							await plugin.app.vault.modify(
 								vault_file, 
 								JSON.stringify(data)
@@ -196,6 +217,7 @@ export default class DVO extends Plugin {
 					//@ts-ignore
 					let vault_file = plugin.app.vault.fileMap[`${bin_path}/${collection}.bucket`]
 
+		//@ts-ignore
 					await plugin.app.vault.delete(vault_file, true)
 				}
 			},
@@ -204,9 +226,16 @@ export default class DVO extends Plugin {
 				css: (styles: string) => {}
 			},
 			jobs: {},
-			settings: {}
+			settings: {},
+			templates: {
+				define: template.template,
+				signal: template.signal,
+				render: template.render,
+				bind: template.bind
+			}
 		}
 
+		//@ts-ignore
 		this.addSettingTab(new DVOSettingTab(this.app, this))
 	}
 
@@ -241,6 +270,7 @@ class DVOSettingTab extends PluginSettingTab {
 	}
 
 	display(): void {
+		//@ts-ignore
 		const {containerEl} = this;
 
 		containerEl.empty();
@@ -248,9 +278,11 @@ class DVOSettingTab extends PluginSettingTab {
 		new Setting(containerEl)
 			.setName('Setting #1')
 			.setDesc('It\'s a secret')
+		//@ts-ignore
 			.addText(text => text
 				.setPlaceholder('Enter your secret')
 				.setValue(this.plugin.settings.mySetting)
+		//@ts-ignore
 				.onChange(async (value) => {
 					this.plugin.settings.mySetting = value;
 					await this.plugin.saveSettings();
