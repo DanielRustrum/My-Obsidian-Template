@@ -4,35 +4,22 @@
     "type": "split",
     "children": [
       {
-        "id": "fd37cd817c1291d3",
+        "id": "1e4d31f85d44a03b",
         "type": "tabs",
         "children": [
           {
-            "id": "de77027700fcd8c5",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Scheduling.md",
-                "mode": "preview",
-                "source": true
-              }
-            }
-          },
-          {
-            "id": "cd47c799b5fe1db2",
+            "id": "caca0a75361e5011",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
                 "file": "Home.md",
-                "mode": "preview",
-                "source": true
+                "mode": "source",
+                "source": false
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -111,10 +98,13 @@
       "homepage:Open homepage": false
     }
   },
-  "active": "cd47c799b5fe1db2",
+  "active": "caca0a75361e5011",
   "lastOpenFiles": [
-    "Scheduling.md",
+    "test.md",
     "Home.md",
+    "object Object.md",
+    "[test.md",
+    "Scheduling.md",
     "Scheduling/Tasks/Test.md",
     "Scheduling/Routines/Last week.md",
     "Scheduling/Routines/Monthly.md",
@@ -124,7 +114,6 @@
     "Scheduling/Events/Test.md",
     "Scheduling/Events/Test1",
     "Meta/Templates/New Task.md",
-    "test.md",
     "Meta/Views/group/view.js",
     "Meta/Views/group/view.css",
     "Meta/Views/group",

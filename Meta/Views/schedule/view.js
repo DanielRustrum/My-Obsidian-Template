@@ -5,7 +5,7 @@
 let args = input
 
 let container = dv.el("div", "", {cls: "schedule-container"})
-container.removeChild(container.firstChild)
+// container.removeChild(container.firstChild)
 
 let lists_container = document.createElement("div")
 lists_container.setAttribute("class", "schedule-lists")

@@ -47,7 +47,8 @@ function collapseTemplate(strings: any, values: any) {
                 values[index][0].render_type === "template"
             ) ||
             values[index].render_type === "child" ||
-            typeof values[index] === 'function'
+            typeof values[index] === 'function' ||
+            values[index] instanceof HTMLElement
         ) {
             new_result.push(current_string)
             current_string = ""
@@ -144,7 +145,7 @@ function buildVDOM(template: any) {
                     if(partial_content !== "")
                         content.push(partial_content);
                     if(content.length !== 0 && current_node)
-		//@ts-ignore
+		                //@ts-ignore
                         current_node.children.push(content);
                     content = []
                     partial_content = ""
@@ -159,11 +160,11 @@ function buildVDOM(template: any) {
                         }
 
                         if(!in_close_tag) {
-		//@ts-ignore
+		                    // @ts-ignore
                             node["element"] = element
-		//@ts-ignore
+		                    //@ts-ignore
                             node["attrs"] = attributes
-		//@ts-ignore
+		                    //@ts-ignore
                             current_node.children.push(node)
                             
                             if(last_char !== "/") {
@@ -172,7 +173,7 @@ function buildVDOM(template: any) {
                             }
 
                         } else {
-		//@ts-ignore
+		                    //@ts-ignore
                             current_node = stack.pop()
                         }
                         
@@ -203,6 +204,7 @@ function buildVDOM(template: any) {
             }
         }
 
+       
         if(segment.render_type === 'signal') {
             if(in_content) {
                 content.push(partial_content)
@@ -225,7 +227,7 @@ function buildVDOM(template: any) {
             segment.render_type === 'template' ||
             segment.render_type === 'child'
         ) {
-		//@ts-ignore
+		    //@ts-ignore
             current_node.children.push(segment)
         }
 
@@ -243,16 +245,26 @@ function buildVDOM(template: any) {
             }
 
             if(segment[0].render_type === "template") {
-		//@ts-ignore
+		        //@ts-ignore
                 current_node.children.push(...segment)
             }
         }
+
+        if(segment instanceof HTMLElement) {
+            //@ts-ignore
+            current_node.children.push(segment)
+        }
+
     }
 
     return root
 }
 
 function buildFragment(VDOM: any) {
+    if(VDOM instanceof HTMLElement) {
+        return [VDOM, {}]
+    }
+
     if(VDOM.render_type === 'template') {
         let node_fragment = new DocumentFragment()
         for (let node of VDOM.children) {
@@ -359,8 +371,10 @@ function buildFragment(VDOM: any) {
         return [VDOM.content, {}]
     }
 
+
     let content_string = ""
     let signals_content = []
+
     for(let content of VDOM) {
         if (
             content.render_type === "signal"
@@ -371,16 +385,17 @@ function buildFragment(VDOM: any) {
             if(content[1].constructor.name == 'AsyncFunction')
                 content_string += content[1]().then(()=>{}).catch((error: Error)=>{throw error;});
             else content_string += content[1]();
-
             signals_content.push(content[0])
+        } else if(content instanceof HTMLElement) {
         } else {
             content_string += content
         }
     }
-    
+
     return [document.createTextNode(content_string), {
         signals: signals_content
     }]
+
 
 }
 
