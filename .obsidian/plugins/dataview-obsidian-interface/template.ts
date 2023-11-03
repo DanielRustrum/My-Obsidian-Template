@@ -1,6 +1,4 @@
-import { error } from "console"
-
-export function signal(default_value = undefined) {
+function signal(default_value = undefined) {
     let signal_obj = {
         render_type: 'signal',
         subscribed: [],
@@ -19,8 +17,7 @@ export function signal(default_value = undefined) {
     return signal_obj
 }
 
-		//@ts-ignore
-export function bind(signal, callback) {
+function bind(signal: any, callback: any) {
     signal.subscribed.push(callback)
 }
 
@@ -399,12 +396,21 @@ function buildFragment(VDOM: any) {
 
 }
 
-		//@ts-ignore
-export function template (strings, ...values) {
+function template (strings: any[], ...values: any[]) {
     return buildVDOM(collapseTemplate(strings, values))
 }
 
-		//@ts-ignore
-export function render(template) {
+function render(template: any) {
     return buildFragment(template)[0]
+}
+
+function define_and_render(strings: any[], ...values: any[]) {
+    return buildFragment(buildVDOM(collapseTemplate(strings, values)))[0]
+}
+
+export const api = {
+    define: template,
+    render,
+    signal,
+    quick: define_and_render
 }

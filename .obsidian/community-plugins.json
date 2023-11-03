@@ -1,13 +1,6 @@
 [
   "dataview",
-  "cm-editor-syntax-highlight-obsidian",
-  "homepage",
-  "customjs",
   "dvo-plugin",
-  "cmdr",
-  "folder-note-plugin",
-  "obsidian-icon-folder",
-  "obsidian-icons-plugin",
-  "obsidian-dictionary-plugin",
+  "cm-editor-syntax-highlight-obsidian",
   "dvo"
 ]

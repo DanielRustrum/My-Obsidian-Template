@@ -1,21 +1,22 @@
 DV: 
 ```dataviewjs
-(async () => {
-	let node = document.createElement("p")
-	node.innerHTML = "Hi!"
+DvOAsync(async () => {
+	DvO.modal.define("test", DvO.template.quick`
+		<h2>You are in the Modal Now</h2>
+		<p>Hello!!!</p>
+	`)
+
 	let container = dv.el("div", document.createElement("div"), {})
+	container.removeChild(container.firstChild)
+	let on_click = () => {
+		DvO.modal.open("test")
+	}
 
-	let link = dv.el("p", dv.pages(`"test"`).file.link, {})
+	container.append(DvO.template.quick`
+		<h2 style="color: red;">Click to activate Modal</h2>
+		<button [click]=${on_click}>Activate</button>
+	`)
 
-	let template = DvO.templates.define`
-		<h1>Hello World</h1>
-		${node}
-		<p>What is this?</p>
-		${link}
-		<p>Jajajaja</p>`
-	let dom = DvO.templates.render(template)
-	console.log(dom)
-	container.append(dom)
-})();
+})
 ```
 After:

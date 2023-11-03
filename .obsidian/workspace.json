@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "1e4d31f85d44a03b",
+        "id": "178f72271235689c",
         "type": "tabs",
         "children": [
           {
-            "id": "caca0a75361e5011",
+            "id": "6ef6aeb16f2bbd49",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -94,22 +94,22 @@
   },
   "left-ribbon": {
     "hiddenItems": {
-      "command-palette:Open command palette": false,
-      "homepage:Open homepage": false
+      "command-palette:Open command palette": false
     }
   },
-  "active": "caca0a75361e5011",
+  "active": "6ef6aeb16f2bbd49",
   "lastOpenFiles": [
-    "test.md",
+    "Scheduling.md",
     "Home.md",
+    "Settings.md",
+    "Untitled.md",
+    "test.md",
     "object Object.md",
     "[test.md",
-    "Scheduling.md",
     "Scheduling/Tasks/Test.md",
     "Scheduling/Routines/Last week.md",
     "Scheduling/Routines/Monthly.md",
     "Scheduling/Routines/Test.md",
-    "Settings.md",
     "Scheduling/Events/Test1.md",
     "Scheduling/Events/Test.md",
     "Scheduling/Events/Test1",
